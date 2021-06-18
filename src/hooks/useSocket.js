@@ -3,8 +3,8 @@ import { io } from "socket.io-client";
 
 const urlParams = new URLSearchParams(window.location.search);
 const customURL = urlParams.get("url");
-console.log("connecting: ", customURL);
 const socketURL = customURL || process.env.REACT_APP_SOCKET_URL;
+console.log("connecting: ", socketURL);
 
 const useSocket = () => {
   const [state, set] = useState();
