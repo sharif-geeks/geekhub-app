@@ -1,14 +1,10 @@
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 
-const socketURL =
-  window.location.hash === "#debug"
-    ? "http://localhost:5000"
-    : window.location.hash === "#pyan"
-    ? "https://hayyaun.pythonanywhere.com"
-    : window.location.hash === "#hero"
-    ? "https://geekhub-api.herokuapp.com"
-    : process.env.REACT_APP_SOCKET_URL;
+const urlParams = new URLSearchParams(window.location.search);
+const customURL = urlParams.get("url");
+console.log("connecting: ", customURL);
+const socketURL = customURL || process.env.REACT_APP_SOCKET_URL;
 
 const useSocket = () => {
   const [state, set] = useState();
@@ -20,7 +16,7 @@ const useSocket = () => {
       path: "/socket.io",
       forceNew: true,
       reconnectionAttempts: 3,
-      timeout: 5000,
+      timeout: 10000,
     });
 
     socket.on("connect", () => {
