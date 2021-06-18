@@ -68,6 +68,7 @@ function App() {
       >
         <input
           type="text"
+          placeholder="room"
           value={room}
           onChange={(e) => setRoom(e.target.value)}
         />
@@ -76,6 +77,7 @@ function App() {
       <form onSubmit={handleSubmit}>
         <input
           type="text"
+          placeholder="message"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
         />
