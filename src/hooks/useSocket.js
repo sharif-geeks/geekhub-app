@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 
-const socketURL = process.env.REACT_APP_SOCKET_URL;
+const socketURL =
+  window.location.pathname === "/debug"
+    ? "http://localhost:5000"
+    : process.env.REACT_APP_SOCKET_URL;
 
 const useSocket = () => {
   const [state, set] = useState();
