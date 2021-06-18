@@ -7,14 +7,20 @@ function App() {
   const [username, setUsername] = useState("");
   const [message, setMessage] = useState("");
   const [room, setRoom] = useState("");
-  const [roomId, setRoomId] = useState("");
+  const [roomId, setRoomId] = useState(null);
   const [history, setHistory] = useState([]);
 
   useEffect(() => {
     if (socket?.connected) {
+      console.log("adding listeners");
+
       socket.on("server/join", (id) => {
         console.log("joined room: ", id);
         setRoomId(id);
+      });
+
+      socket.on("server/leave", (prevRoom) => {
+        console.log("left room: " + prevRoom);
       });
 
       socket.on("server/message", (item) => setHistory((s) => [...s, item]));
@@ -24,29 +30,22 @@ function App() {
     }
   }, [socket]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (socket?.connected) {
-      socket.emit("client/message", { username, room: roomId, message });
-    } else {
-      alert("you are not connected!");
-    }
+  const handleJoinRoom = (id) => {
+    if (!socket?.connected) return alert("you are not connected!");
+    console.log("joining room: " + id);
+    if (roomId !== "" && roomId !== socket?.id) {
+      socket.emit("client/leave", { username, room: roomId }, (ack) => {
+        console.log("leaveing room: ", roomId);
+        setRoomId(null);
+      });
+      socket.emit("client/join", { username, room: id });
+    } else socket.emit("client/join", { username, room: id });
   };
 
-  const handleJoinRoom = (id) => {
-    if (socket?.connected) {
-      if (roomId !== "") {
-        console.log("joining room: " + id);
-        socket.emit("client/leave", { username, room: roomId });
-        socket.on("server/leave", (prevRoom) => {
-          console.log("left room: " + prevRoom);
-          socket.emit("client/join", { username, room: id });
-          socket.off("server/leave");
-        });
-      } else socket.emit("client/join", { username, room: id });
-    } else {
-      alert("you are not connected!");
-    }
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!socket?.connected) return alert("you are not connected!");
+    socket.emit("client/message", { username, room: roomId, message });
   };
 
   const isConnected = socket?.connected;
@@ -95,7 +94,7 @@ function App() {
                   {item.username}
                 </span>
                 <b>@{item.room}</b>
-                &nbsp;
+                <span>{" >>> "}</span>
                 <span>{item.message}</span>
                 <span className="tooltiptext">{item.sid}</span>
               </li>

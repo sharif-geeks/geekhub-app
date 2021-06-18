@@ -1,18 +1,19 @@
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 
+const socketURL = process.env.REACT_APP_SOCKET_URL;
+
 const useSocket = () => {
   const [state, set] = useState();
 
   useEffect(() => {
     console.log("socket reset!");
 
-    const socket = io(process.env.REACT_APP_SOCKET_URL, {
+    const socket = io(socketURL, {
       path: "/socket.io",
       forceNew: true,
       reconnectionAttempts: 3,
       timeout: 5000,
-      transports: ["websocket"],
     });
 
     socket.on("connect", () => {
