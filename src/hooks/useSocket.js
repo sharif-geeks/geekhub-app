@@ -5,7 +5,7 @@ const socketURL =
   window.location.hash === "#debug"
     ? "http://localhost:5000"
     : window.location.hash === "#pyan"
-    ? "http://hayyaun.pythonanywhere.com"
+    ? "https://hayyaun.pythonanywhere.com"
     : window.location.hash === "#hero"
     ? "https://geekhub-api.herokuapp.com"
     : process.env.REACT_APP_SOCKET_URL;
