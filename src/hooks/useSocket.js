@@ -11,16 +11,16 @@ const useSocket = () => {
       path: "/socket.io",
       forceNew: true,
       reconnectionAttempts: 3,
-      timeout: 2000,
+      timeout: 5000,
     });
 
     socket.on("connect", () => {
-      console.log(socket.id, socket);
+      console.log("connected", socket.id, socket);
       set(socket);
     });
 
     socket.on("disconnect", () => {
-      console.log(socket.id, socket);
+      console.log("diconnected", socket);
       set(socket);
     });
   }, []);

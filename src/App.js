@@ -61,7 +61,6 @@ function App() {
           onChange={(e) => setUsername(e.target.value)}
         />
       </div>
-
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -75,7 +74,6 @@ function App() {
         />
         <input type="submit" disabled={!isConnected} value="join" />
       </form>
-
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -84,7 +82,6 @@ function App() {
         />
         <input type="submit" disabled={!canSendMessage} value="send" />
       </form>
-
       <div>
         <ul>
           {history.map((item, i) => {
