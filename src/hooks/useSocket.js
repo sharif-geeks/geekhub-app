@@ -12,6 +12,7 @@ const useSocket = () => {
       forceNew: true,
       reconnectionAttempts: 3,
       timeout: 5000,
+      transports: ["websocket"],
     });
 
     socket.on("connect", () => {
