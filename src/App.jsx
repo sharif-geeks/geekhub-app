@@ -212,7 +212,7 @@ const ImageContent = ({ message: { file, type }, ...props }) => {
   const base64String = btoa(
     String.fromCharCode(...new Uint8Array(arrayBuffer))
   );
-  var image = `data:${file.type};base64,${base64String}`;
+  var image = `data:${type};base64,${base64String}`;
 
   return (
     <div style={{ overflow: "hidden", maxWidth: 200, maxHeight: 200 }}>
