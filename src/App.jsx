@@ -133,6 +133,7 @@ function App() {
             e.preventDefault();
             handleJoinRoom(room);
           }}
+          style={{ flex: 1 }}
         >
           <Input
             type="text"
@@ -178,7 +179,7 @@ function App() {
                   message: { file: bytes, type: file.type, name: file.name },
                 });
             };
-            reader.readAsArrayBuffer(file);
+            if (file) reader.readAsArrayBuffer(file);
           }}
         />
       </Form>
@@ -200,8 +201,8 @@ const FileContent = ({ message: { file, type, name }, ...props }) => {
     : "File";
 
   return (
-    <a href={objectURL}>
-      Download {typeName} : {name}
+    <a href={objectURL} target="_blank" rel="noreferrer">
+      Download {typeName} <br /> <span style={{ fontSize: '0.5rem' }}>{name}</span>
     </a>
   );
 };
@@ -283,6 +284,7 @@ const InfoBox = styled.div`
   display: flex;
   justify-content: stretch;
   gap: 8px;
+  flex-wrap: wrap;
 `;
 
 const MessageContent = styled.div`
