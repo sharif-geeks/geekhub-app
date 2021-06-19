@@ -4,9 +4,10 @@ import { io } from "socket.io-client";
 const urlParams = new URLSearchParams(window.location.search);
 const customURL = urlParams.get("url");
 const socketURL =
-  customURL || process.env.NODE_ENV === "development"
+  customURL ||
+  (process.env.NODE_ENV === "development"
     ? "http://" + window.location.hostname + ":5000"
-    : "/";
+    : "/");
 console.log("connecting: ", socketURL);
 
 const useSocket = () => {
